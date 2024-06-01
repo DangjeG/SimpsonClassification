@@ -2,10 +2,14 @@ import os
 from PIL import Image
 import xml.etree.ElementTree as ET
 import pandas as pd
+import numpy as np
+
 
 def parse_annotation_txt(annotation_file):
+    i = 6
     with open(annotation_file, "r") as f:
         annotations = [line.strip().split(",") for line in f.readlines()]
+
     return annotations
 
 
@@ -18,7 +22,7 @@ if __name__ == '__main__':
             if filename.endswith(".jpg"):
                 images.append(os.path.join(dirpath, filename))
 
-        annotation_file = os.path.join(dirpath, "annotation.xml")
+        annotation_file = os.path.join(dirpath, "annotation.txt")
         if os.path.exists(annotation_file):
             annotations.append(annotation_file)
 
@@ -35,5 +39,4 @@ if __name__ == '__main__':
     df["width"] = df["image_path"].apply(lambda x: Image.open(x).width)
     df["height"] = df["image_path"].apply(lambda x: Image.open(x).height)
 
-    print(df.values[0:10])
-
+    print(df.head())
